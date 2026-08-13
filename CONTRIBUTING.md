@@ -1,45 +1,92 @@
-# Contributing to the J.A.R.V.I.S. Co-Pilot Engine
+# Contributing Guide
 
-Thank you for your interest in enhancing the **J.A.R.V.I.S. Cognitive Architecture**. 
-
-We hold this codebase to rigorous, maintainer-grade standards. This document outlines how to contribute new cognitive modules, IDE adapters, and generalized defect classes.
+Guidelines for contributing to `jarvis-copilot-engine`.
 
 ---
 
-## 🧭 Contribution Vectors
+## Architecture Overview
 
-### 1. Adding Generalized Defect Classes (`core/generalization-engine.md`)
-The Generalization Engine grows stronger with every systemic failure pattern discovered across software ecosystems.
-* When submitting a new defect class:
-  1. Identify the **Abstract Failure Pattern** (not just a specific bug in one language).
-  2. Define the **Systemic Invariant** (the programmatic rule, test structure, or mathematical property that eliminates the whole class).
-  3. Provide concrete pseudo-code or regex representations where applicable.
+This repository maintains modular specification files, platform adapters, and shell installation scripts:
 
-### 2. Adding Platform Adapters (`adapters/<tool-name>.md`)
-We welcome adapters for new AI development environments, agent frameworks, and IDE plugins (e.g. Aider, Continue.dev, Zed, OpenHands).
-* Requirements for new adapters:
-  - Document where the tool expects system prompts / rule files.
-  - Provide a single-line injection snippet and a full standalone file option.
-  - Detail expected agent behavior and tool compliance.
-  - Update `install.sh` with the corresponding flag if applicable.
-
-### 3. Enhancing Sentinel Shield Heuristics (`core/sentinel-shield.md`)
-* Add new high-risk pattern detectors (e.g. new cloud credential regexes, destructive command patterns).
-* Maintain zero false-positive tolerance for standard development commands.
+```
+├── AGENTS.md                  # Root configuration template for agents
+├── SKILL.md                   # Open Skill 1.0 manifest
+├── install.sh / uninstall.sh  # POSIX shell deployment & cleanup scripts
+├── core/                      # Cognitive rules, security heuristics, & defect classes
+└── adapters/                  # Tool-specific configuration guides & snippets
+```
 
 ---
 
-## 📜 Contribution Standards
+## Development & Local Testing
 
-1. **Zero Fluff & High Signal:** Write concise, actionable engineering directives. Avoid conversational filler or buzzwords.
-2. **The Invisible Hand:** Do not attribute contributions to specific LLMs or AI tools in commit messages or PR descriptions.
-3. **Open Skill Compliance:** Ensure any changes to `SKILL.md` conform to the [Open Skill Standard](https://github.com/agent-skills/open-skill).
+### Prerequisites
+* POSIX-compliant shell (`bash` 3.2+ or `zsh`)
+* `git` 2.0+
+
+### Validation Checks
+Run local sanity checks before submitting changes:
+
+```bash
+# 1. Verify shell script syntax
+bash -n install.sh
+bash -n uninstall.sh
+
+# 2. Test installer & uninstaller in an isolated sandbox directory
+mkdir -p .test_sandbox
+./install.sh --target .test_sandbox --all
+./uninstall.sh --target .test_sandbox --force
+rmdir .test_sandbox
+
+# 3. Check for broken relative links
+# Ensure all referenced markdown files exist under core/ and adapters/
+```
 
 ---
 
-## 🛠️ Submitting a Pull Request
+## Contribution Areas
 
-1. Fork the repository.
-2. Create a clean feature branch: `git checkout -b feature/new-adapter-name`.
-3. Verify formatting and links across all markdown documents.
-4. Open a Pull Request with a clear, technical description of the cognitive vector or adapter introduced.
+### 1. Adding or Updating Adapters (`adapters/<tool>.md`)
+When adding support for a new AI tool or IDE (e.g., Continue.dev, Aider, Zed):
+* Document the default configuration path (e.g., `.continue/config.json`, `.aiderrules`).
+* Provide both a modular inclusion snippet and a standalone drop-in method.
+* Update `install.sh` and `uninstall.sh` to add the corresponding CLI flags.
+* Add the adapter to the platform matrix in `README.md` and CI checks in `.github/workflows/ci.yml`.
+
+### 2. Generalization Defect Classes (`core/generalization-engine.md`)
+* Abstract concrete bugs into reusable defect patterns.
+* Every entry must define:
+  1. **Abstract Pattern:** The failure structure across modules or languages.
+  2. **Systemic Invariant:** The programmatic assertion or test invariant that eliminates the failure class repo-wide.
+
+### 3. Core Behavioral Vectors (`core/behavioral-vectors.md`)
+* Focus on actionable prompt engineering directives rather than cosmetic prose.
+* Keep instructions deterministic, testable, and concise.
+
+---
+
+## Commit Guidelines
+
+We use [Conventional Commits](https://www.conventionalcommits.org/):
+
+* `feat:` New adapters, cognitive modules, or installer capabilities
+* `fix:` Bug fixes in scripts, typos, or path resolutions
+* `docs:` Documentation improvements and README updates
+* `refactor:` Code or protocol restructuring without behavior changes
+* `test:` Test scripts and CI workflow modifications
+* `chore:` Maintenance tasks and metadata updates
+
+> Do not include automated co-author trailers (`Co-authored-by: ...`), tool signatures, or AI generation footers in commit messages or pull requests.
+
+---
+
+## Pull Request Workflow
+
+1. Fork the repository and create a branch from `main`:
+   ```bash
+   git checkout -b feat/add-aider-adapter
+   ```
+2. Make minimal, focused changes.
+3. Validate scripts locally (`bash -n` and sandbox test).
+4. Push your branch and open a Pull Request using the repository's PR template.
+5. Ensure CI validation passes.
