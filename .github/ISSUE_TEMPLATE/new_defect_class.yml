@@ -1,0 +1,39 @@
+name: "Submit Generalized Defect Class"
+description: "Propose a new systemic defect class for the Generalization Engine"
+title: "[Defect Class]: "
+labels: ["generalization", "enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### The Generalization Engine Proposal
+        Every submitted defect class must abstract away from isolated bugs to eliminate entire classes of failures repo-wide.
+  - type: input
+    id: class_name
+    attributes:
+      label: Defect Class Name
+      description: Descriptive title for this defect pattern.
+      placeholder: "e.g., Class D: Unchecked Cross-Dialect Regex Escaping"
+    validations:
+      required: true
+  - type: textarea
+    id: isolated_incident
+    attributes:
+      label: Isolated Incident / Example
+      description: What specific bug or failure sparked this insight?
+    validations:
+      required: true
+  - type: textarea
+    id: abstract_pattern
+    attributes:
+      label: Abstract Failure Pattern
+      description: How does this pattern manifest across different modules, inputs, or ecosystems?
+    validations:
+      required: true
+  - type: textarea
+    id: systemic_invariant
+    attributes:
+      label: Systemic Invariant Rule / Assertion
+      description: What programmatic rule or test invariant eliminates this entire class repo-wide?
+    validations:
+      required: true

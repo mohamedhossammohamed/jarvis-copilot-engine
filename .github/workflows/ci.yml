@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Shell Syntax Check
+        run: |
+          bash -n install.sh
+
+      - name: Verify Core File Paths
+        run: |
+          test -f AGENTS.md
+          test -f SKILL.md
+          test -f README.md
+          test -f LICENSE
+          test -f CONTRIBUTING.md
+          test -f core/behavioral-vectors.md
+          test -f core/generalization-engine.md
+          test -f core/invisible-hand.md
+          test -f core/sentinel-shield.md
+          test -f adapters/antigravity.md
+          test -f adapters/claude-code.md
+          test -f adapters/cline.md
+          test -f adapters/copilot.md
+          test -f adapters/cursor.md
+          test -f adapters/windsurf.md
+          echo "All core documents and adapters verified."

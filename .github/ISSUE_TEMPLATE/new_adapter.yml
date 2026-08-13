@@ -1,0 +1,26 @@
+name: "Submit New Platform Adapter"
+description: "Propose an adapter guide for a new IDE, agent, or coding environment"
+title: "[Adapter]: "
+labels: ["adapter", "ecosystem"]
+body:
+  - type: input
+    id: tool_name
+    attributes:
+      label: Target AI Tool / IDE Name
+      placeholder: "e.g., Continue.dev, Aider, OpenHands"
+    validations:
+      required: true
+  - type: input
+    id: config_file
+    attributes:
+      label: Target Configuration File Path
+      placeholder: "e.g., .continue/config.json or .aiderrules"
+    validations:
+      required: true
+  - type: textarea
+    id: integration_snippet
+    attributes:
+      label: Integration Instructions / Directives
+      description: How should J.A.R.V.I.S. directives be injected?
+    validations:
+      required: true
