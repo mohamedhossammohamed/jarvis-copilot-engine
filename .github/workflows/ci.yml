@@ -16,6 +16,7 @@ jobs:
       - name: Shell Syntax Check
         run: |
           bash -n install.sh
+          bash -n uninstall.sh
 
       - name: Verify Core File Paths
         run: |
@@ -24,6 +25,8 @@ jobs:
           test -f README.md
           test -f LICENSE
           test -f CONTRIBUTING.md
+          test -f install.sh
+          test -f uninstall.sh
           test -f core/behavioral-vectors.md
           test -f core/generalization-engine.md
           test -f core/invisible-hand.md

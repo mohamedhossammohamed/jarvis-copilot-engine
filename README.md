@@ -65,6 +65,9 @@
 Inject J.A.R.V.I.S. directly into your current workspace:
 
 ```bash
+# Interactive installation (choose specific tools or custom path)
+./install.sh -i
+
 # Direct one-line deployment via curl
 curl -fsSL https://raw.githubusercontent.com/mohamedhossammohamed/jarvis-copilot-engine/main/install.sh | bash -s -- --all
 
@@ -76,18 +79,23 @@ git clone https://github.com/mohamedhossammohamed/jarvis-copilot-engine.git /tmp
 Or target a specific toolchain:
 ```bash
 ./install.sh --cursor      # Deploys .cursorrules and .cursor/rules/jarvis.mdc
+./install.sh --grok        # Deploys GROK.md and .grok/
 ./install.sh --claude      # Deploys CLAUDE.md
 ./install.sh --windsurf    # Deploys .windsurfrules
 ./install.sh --copilot     # Deploys .github/copilot-instructions.md
 ./install.sh --cline       # Deploys .clinerules
-./install.sh --grok        # Deploys GROK.md and .grok/
 ./install.sh --antigravity # Installs globally into ~/.gemini/antigravity/skills/
 ```
 
-### 2. Manual Drop-In
-Simply copy `AGENTS.md` to your repository root:
+### 2. Clean Opt-Out & Complete Uninstallation
+We believe in zero-lockin. If you ever wish to remove J.A.R.V.I.S., you can delete all traces with a single command:
+
 ```bash
-cp jarvis-copilot-engine/AGENTS.md /path/to/your/project/AGENTS.md
+# Clean current workspace
+./uninstall.sh
+
+# Or clean all global directories & workspaces in 1 command
+curl -fsSL https://raw.githubusercontent.com/mohamedhossammohamed/jarvis-copilot-engine/main/uninstall.sh | bash -s -- --all
 ```
 
 ---
@@ -115,7 +123,8 @@ jarvis-copilot-engine/
 ├── AGENTS.md                         # Universal root configuration for all agents
 ├── LICENSE                           # Apache 2.0 License
 ├── CONTRIBUTING.md                   # Contribution standards for defect classes & adapters
-├── install.sh                        # Automated multi-environment workspace installer
+├── install.sh                        # Interactive multi-environment workspace installer
+├── uninstall.sh                      # 1-command clean uninstaller & opt-out utility
 ├── core/
 │   ├── behavioral-vectors.md         # Tone, psychological posture, & vector matrix
 │   ├── sentinel-shield.md            # Asset protection, secret scanning, & command lockout

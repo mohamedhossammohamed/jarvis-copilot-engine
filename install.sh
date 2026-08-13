@@ -165,6 +165,7 @@ DO_CLINE=0
 DO_GROK=0
 DO_ANTIGRAVITY=0
 DO_ALL=0
+DO_INTERACTIVE=0
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -204,6 +205,18 @@ while [[ $# -gt 0 ]]; do
             DO_ALL=1
             shift
             ;;
+        --interactive|-i)
+            DO_INTERACTIVE=1
+            shift
+            ;;
+        --uninstall)
+            if [ -f "${SCRIPT_DIR}/uninstall.sh" ]; then
+                exec "${SCRIPT_DIR}/uninstall.sh" "${@:2}"
+            else
+                curl -fsSL "https://raw.githubusercontent.com/mohamedhossammohamed/jarvis-copilot-engine/main/uninstall.sh" | bash -s -- "${@:2}"
+                exit 0
+            fi
+            ;;
         --help|-h)
             print_help
             exit 0
@@ -216,6 +229,69 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
+# If no flags passed and run interactively in a terminal, prompt user for destination
+if [ $DO_CURSOR -eq 0 ] && [ $DO_CLAUDE -eq 0 ] && [ $DO_WINDSURF -eq 0 ] && [ $DO_COPILOT -eq 0 ] && [ $DO_CLINE -eq 0 ] && [ $DO_GROK -eq 0 ] && [ $DO_ANTIGRAVITY -eq 0 ] && [ $DO_ALL -eq 0 ]; then
+    if [ -t 0 ] || [ $DO_INTERACTIVE -eq 1 ]; then
+        print_banner
+        echo -e "${BOLD}Where would you like to install J.A.R.V.I.S.?${NC}"
+        echo "  [1] All Workspace Tools in Current Directory (${TARGET_DIR})"
+        echo "  [2] Cursor IDE (.cursorrules & .cursor/rules/)"
+        echo "  [3] Grok Build & Grok CLI (GROK.md & .grok/)"
+        echo "  [4] Claude Code (CLAUDE.md)"
+        echo "  [5] Codeium Windsurf (.windsurfrules)"
+        echo "  [6] GitHub Copilot (.github/copilot-instructions.md)"
+        echo "  [7] Cline / Roo Code (.clinerules)"
+        echo "  [8] Global Antigravity User Skill (~/.gemini/antigravity/skills/)"
+        echo "  [9] Custom Target Directory"
+        echo "  [0] Cancel"
+        echo ""
+        read -r -p "Enter selection [1-9, default: 1]: " menu_choice
+        menu_choice="${menu_choice:-1}"
+        
+        case "$menu_choice" in
+            1)
+                DO_ALL=1
+                ;;
+            2)
+                DO_CURSOR=1
+                ;;
+            3)
+                DO_GROK=1
+                ;;
+            4)
+                DO_CLAUDE=1
+                ;;
+            5)
+                DO_WINDSURF=1
+                ;;
+            6)
+                DO_COPILOT=1
+                ;;
+            7)
+                DO_CLINE=1
+                ;;
+            8)
+                DO_ANTIGRAVITY=1
+                ;;
+            9)
+                read -r -p "Enter custom target directory path: " custom_path
+                SELECTED_TARGET="$custom_path"
+                DO_ALL=1
+                ;;
+            0)
+                echo -e "${YELLOW}Installation cancelled.${NC}"
+                exit 0
+                ;;
+            *)
+                echo -e "${YELLOW}Invalid selection. Defaulting to Universal Workspace installation.${NC}"
+                DO_ALL=1
+                ;;
+        esac
+    else
+        DO_ALL=1
+    fi
+fi
+
 if [ -n "$SELECTED_TARGET" ]; then
     TARGET_DIR="$SELECTED_TARGET"
 fi
@@ -225,26 +301,14 @@ mkdir -p "$TARGET_DIR"
 print_banner
 echo -e "Target Directory: ${BOLD}${TARGET_DIR}${NC}\n"
 
-# If no flags passed, install standard AGENTS.md + workspace adapters
-if [ $DO_CURSOR -eq 0 ] && [ $DO_CLAUDE -eq 0 ] && [ $DO_WINDSURF -eq 0 ] && [ $DO_COPILOT -eq 0 ] && [ $DO_CLINE -eq 0 ] && [ $DO_GROK -eq 0 ] && [ $DO_ANTIGRAVITY -eq 0 ] && [ $DO_ALL -eq 0 ]; then
-    echo -e "${YELLOW}No specific target flags specified. Deploying Universal Workspace Configuration...${NC}"
-    install_root_agents "$TARGET_DIR"
-    install_cursor "$TARGET_DIR"
-    install_claude "$TARGET_DIR"
-    install_windsurf "$TARGET_DIR"
-    install_copilot "$TARGET_DIR"
-    install_cline "$TARGET_DIR"
-    install_grok "$TARGET_DIR"
-else
-    install_root_agents "$TARGET_DIR"
-    [ $DO_ALL -eq 1 ] || [ $DO_CURSOR -eq 1 ] && install_cursor "$TARGET_DIR"
-    [ $DO_ALL -eq 1 ] || [ $DO_CLAUDE -eq 1 ] && install_claude "$TARGET_DIR"
-    [ $DO_ALL -eq 1 ] || [ $DO_WINDSURF -eq 1 ] && install_windsurf "$TARGET_DIR"
-    [ $DO_ALL -eq 1 ] || [ $DO_COPILOT -eq 1 ] && install_copilot "$TARGET_DIR"
-    [ $DO_ALL -eq 1 ] || [ $DO_CLINE -eq 1 ] && install_cline "$TARGET_DIR"
-    [ $DO_ALL -eq 1 ] || [ $DO_GROK -eq 1 ] && install_grok "$TARGET_DIR"
-    [ $DO_ANTIGRAVITY -eq 1 ] && install_antigravity
-fi
+install_root_agents "$TARGET_DIR"
+[ $DO_ALL -eq 1 ] || [ $DO_CURSOR -eq 1 ] && install_cursor "$TARGET_DIR"
+[ $DO_ALL -eq 1 ] || [ $DO_CLAUDE -eq 1 ] && install_claude "$TARGET_DIR"
+[ $DO_ALL -eq 1 ] || [ $DO_WINDSURF -eq 1 ] && install_windsurf "$TARGET_DIR"
+[ $DO_ALL -eq 1 ] || [ $DO_COPILOT -eq 1 ] && install_copilot "$TARGET_DIR"
+[ $DO_ALL -eq 1 ] || [ $DO_CLINE -eq 1 ] && install_cline "$TARGET_DIR"
+[ $DO_ALL -eq 1 ] || [ $DO_GROK -eq 1 ] && install_grok "$TARGET_DIR"
+[ $DO_ANTIGRAVITY -eq 1 ] && install_antigravity
 
 echo ""
 echo -e "${GREEN}${BOLD}✔ J.A.R.V.I.S. Cognitive Engine successfully deployed.${NC}"
