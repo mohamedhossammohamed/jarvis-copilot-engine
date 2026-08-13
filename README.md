@@ -4,7 +4,7 @@
 
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 [![Standard](https://img.shields.io/badge/Standard-Open_Skill_1.0-brightgreen.svg)](SKILL.md)
-[![Ecosystem](https://img.shields.io/badge/Compatibility-Claude_Code_•_Cursor_•_Antigravity_•_Windsurf_•_Copilot_•_Cline-purple.svg)](#-platform-support-matrix)
+[![Ecosystem](https://img.shields.io/badge/Compatibility-Cursor_•_Grok_Build_•_Claude_Code_•_Antigravity_•_Windsurf_•_Copilot_•_Cline-purple.svg)](#-platform-support-matrix)
 [![Privacy](https://img.shields.io/badge/Firewall-Zero_AI_Attribution_Leakage-red.svg)](core/invisible-hand.md)
 
 **A sovereign, anticipatory cognitive architecture for agentic AI coding tools.**  
@@ -80,6 +80,7 @@ Or target a specific toolchain:
 ./install.sh --windsurf    # Deploys .windsurfrules
 ./install.sh --copilot     # Deploys .github/copilot-instructions.md
 ./install.sh --cline       # Deploys .clinerules
+./install.sh --grok        # Deploys GROK.md and .grok/
 ./install.sh --antigravity # Installs globally into ~/.gemini/antigravity/skills/
 ```
 
@@ -95,8 +96,9 @@ cp jarvis-copilot-engine/AGENTS.md /path/to/your/project/AGENTS.md
 
 | Platform / Agent | Configuration Target | Adapter Guide |
 |---|---|---|
-| **Claude Code** | `CLAUDE.md` | [`adapters/claude-code.md`](adapters/claude-code.md) |
 | **Cursor IDE** | `.cursorrules` / `.cursor/rules/jarvis.mdc` | [`adapters/cursor.md`](adapters/cursor.md) |
+| **Grok CLI / Grok Build** | `GROK.md` / `.grok/GROK.md` | [`adapters/grok.md`](adapters/grok.md) |
+| **Claude Code** | `CLAUDE.md` | [`adapters/claude-code.md`](adapters/claude-code.md) |
 | **Google Antigravity** | `SKILL.md` (Native Skill Discovery) | [`adapters/antigravity.md`](adapters/antigravity.md) |
 | **Codeium Windsurf** | `.windsurfrules` | [`adapters/windsurf.md`](adapters/windsurf.md) |
 | **GitHub Copilot / VS Code** | `.github/copilot-instructions.md` | [`adapters/copilot.md`](adapters/copilot.md) |
@@ -120,8 +122,9 @@ jarvis-copilot-engine/
 │   ├── generalization-engine.md      # The Generalization Law & defect classification
 │   └── invisible-hand.md             # Dual-chamber firewall & public sanitization
 └── adapters/
+    ├── cursor.md                     # Hooking into Cursor rules & Composer
+    ├── grok.md                       # Hooking into xAI Grok Build & Grok CLI
     ├── claude-code.md                # Hooking into Anthropic Claude Code
-    ├── cursor.md                     # Hooking into Cursor rules
     ├── antigravity.md                # Hooking into Google Antigravity
     ├── windsurf.md                   # Hooking into Codeium Windsurf Cascade
     ├── copilot.md                    # Hooking into GitHub Copilot Workspace

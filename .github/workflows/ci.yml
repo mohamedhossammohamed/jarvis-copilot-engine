@@ -33,5 +33,7 @@ jobs:
           test -f adapters/cline.md
           test -f adapters/copilot.md
           test -f adapters/cursor.md
+          test -f adapters/grok.md
           test -f adapters/windsurf.md
           echo "All core documents and adapters verified."
+

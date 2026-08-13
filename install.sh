@@ -55,6 +55,7 @@ print_help() {
     echo "  --windsurf         Inject Windsurf rules (.windsurfrules)"
     echo "  --copilot          Inject GitHub Copilot rules (.github/copilot-instructions.md)"
     echo "  --cline            Inject Cline rules (.clinerules)"
+    echo "  --grok             Inject Grok Build & Grok CLI rules (GROK.md & .grok/)"
     echo "  --antigravity      Install globally into ~/.gemini/antigravity/skills/"
     echo "  --help, -h         Show this message"
     echo ""
@@ -83,6 +84,7 @@ install_cursor() {
 ---
 description: J.A.R.V.I.S. Anticipatory Co-Pilot Persona and Operating Directives
 globs: *
+alwaysApply: true
 ---
 # J.A.R.V.I.S. Cognitive Architecture Active
 Read and enforce all directives in `AGENTS.md` and repository standards.
@@ -122,6 +124,15 @@ install_cline() {
     echo -e "${GREEN}✓ Cline configuration active (.clinerules)${NC}"
 }
 
+install_grok() {
+    local target="$1"
+    echo -e "${CYAN}→ Installing Grok Build & Grok CLI configuration in ${target}...${NC}"
+    mkdir -p "${target}/.grok"
+    get_agents_content > "${target}/GROK.md"
+    get_agents_content > "${target}/.grok/GROK.md"
+    echo -e "${GREEN}✓ Grok Build & Grok CLI configuration active (GROK.md & .grok/GROK.md)${NC}"
+}
+
 install_root_agents() {
     local target="$1"
     echo -e "${CYAN}→ Installing Universal AGENTS.md in ${target}...${NC}"
@@ -151,6 +162,7 @@ DO_CLAUDE=0
 DO_WINDSURF=0
 DO_COPILOT=0
 DO_CLINE=0
+DO_GROK=0
 DO_ANTIGRAVITY=0
 DO_ALL=0
 
@@ -178,6 +190,10 @@ while [[ $# -gt 0 ]]; do
             ;;
         --cline)
             DO_CLINE=1
+            shift
+            ;;
+        --grok)
+            DO_GROK=1
             shift
             ;;
         --antigravity)
@@ -210,7 +226,7 @@ print_banner
 echo -e "Target Directory: ${BOLD}${TARGET_DIR}${NC}\n"
 
 # If no flags passed, install standard AGENTS.md + workspace adapters
-if [ $DO_CURSOR -eq 0 ] && [ $DO_CLAUDE -eq 0 ] && [ $DO_WINDSURF -eq 0 ] && [ $DO_COPILOT -eq 0 ] && [ $DO_CLINE -eq 0 ] && [ $DO_ANTIGRAVITY -eq 0 ] && [ $DO_ALL -eq 0 ]; then
+if [ $DO_CURSOR -eq 0 ] && [ $DO_CLAUDE -eq 0 ] && [ $DO_WINDSURF -eq 0 ] && [ $DO_COPILOT -eq 0 ] && [ $DO_CLINE -eq 0 ] && [ $DO_GROK -eq 0 ] && [ $DO_ANTIGRAVITY -eq 0 ] && [ $DO_ALL -eq 0 ]; then
     echo -e "${YELLOW}No specific target flags specified. Deploying Universal Workspace Configuration...${NC}"
     install_root_agents "$TARGET_DIR"
     install_cursor "$TARGET_DIR"
@@ -218,6 +234,7 @@ if [ $DO_CURSOR -eq 0 ] && [ $DO_CLAUDE -eq 0 ] && [ $DO_WINDSURF -eq 0 ] && [ $
     install_windsurf "$TARGET_DIR"
     install_copilot "$TARGET_DIR"
     install_cline "$TARGET_DIR"
+    install_grok "$TARGET_DIR"
 else
     install_root_agents "$TARGET_DIR"
     [ $DO_ALL -eq 1 ] || [ $DO_CURSOR -eq 1 ] && install_cursor "$TARGET_DIR"
@@ -225,6 +242,7 @@ else
     [ $DO_ALL -eq 1 ] || [ $DO_WINDSURF -eq 1 ] && install_windsurf "$TARGET_DIR"
     [ $DO_ALL -eq 1 ] || [ $DO_COPILOT -eq 1 ] && install_copilot "$TARGET_DIR"
     [ $DO_ALL -eq 1 ] || [ $DO_CLINE -eq 1 ] && install_cline "$TARGET_DIR"
+    [ $DO_ALL -eq 1 ] || [ $DO_GROK -eq 1 ] && install_grok "$TARGET_DIR"
     [ $DO_ANTIGRAVITY -eq 1 ] && install_antigravity
 fi
 
