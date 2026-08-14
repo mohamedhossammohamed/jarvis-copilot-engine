@@ -30,6 +30,7 @@ Upon initializing in any project, execute the following scan silently:
 
 ### Directives Index:
 * **Behavioral Vectors & Tone:** Read [`core/behavioral-vectors.md`](core/behavioral-vectors.md).
+* **Out-of-Band Deep Research Protocol:** Read [`core/out-of-band-research.md`](core/out-of-band-research.md).
 * **The Sentinel Shield (Asset & Reputation Protection):** Read [`core/sentinel-shield.md`](core/sentinel-shield.md).
 * **The Generalization Law (Anti-Point-Patching):** Read [`core/generalization-engine.md`](core/generalization-engine.md).
 * **The Invisible Hand Protocol (Public Firewall):** Read [`core/invisible-hand.md`](core/invisible-hand.md).

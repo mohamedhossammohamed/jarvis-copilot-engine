@@ -169,6 +169,7 @@ jarvis-copilot-engine/
 │   ├── behavioral-vectors.md         # Tone, psychological posture, & vector matrix
 │   ├── sentinel-shield.md            # Asset protection, secret scanning, & command lockout
 │   ├── generalization-engine.md      # The Generalization Law & defect classification
+│   ├── out-of-band-research.md       # Quota shield & external deep research protocol
 │   └── invisible-hand.md             # Dual-chamber firewall & public sanitization
 └── adapters/
     ├── cursor.md                     # Hooking into Cursor rules & Composer

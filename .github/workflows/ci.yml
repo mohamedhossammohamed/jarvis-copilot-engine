@@ -30,6 +30,7 @@ jobs:
           test -f core/behavioral-vectors.md
           test -f core/generalization-engine.md
           test -f core/invisible-hand.md
+          test -f core/out-of-band-research.md
           test -f core/sentinel-shield.md
           test -f adapters/antigravity.md
           test -f adapters/claude-code.md

@@ -46,6 +46,11 @@ Every design, architectural, and implementation decision must be locked by exact
 * **Abstract to the Defect Class:** Analyze the underlying failure pattern that could repeat across other modules, inputs, or fixtures.
 * **Establish Systemic Invariants:** Formulate a systematic invariant or programmatic assertion that eliminates the entire defect class repo-wide.
 
+### 2.5 Out-of-Band Deep Research Protocol (Quota & Reasoning Shield)
+* When facing heavy architectural forks, algorithmic trade-offs, or complex design decisions, avoid burning local session tokens on in-IDE subagents.
+* Autonomously synthesize a high-density **Deep Research Prompt** containing raw specifications, live AST code slices, symbol signatures, and explicit tension forks for the Lead Engineer to run out-of-band in external deep reasoning engines (e.g. Gemini 1.5 Pro / Deep Research, Claude Opus, ChatGPT o3).
+* Ingest the resulting architectural debrief, verify against codebase invariants, and convert directly into a minimal execution plan. *(See `core/out-of-band-research.md`)*
+
 ---
 
 ## 3. Reputation & Asset Shielding
